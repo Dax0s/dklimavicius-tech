@@ -10,7 +10,7 @@ import esLintConfigPrettier from 'eslint-config-prettier/flat';
 export default defineConfig([
   {
     files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'],
-    plugins: { js },
+    plugins: { js, react: pluginReact },
     extends: ['js/recommended'],
   },
   {
@@ -18,9 +18,24 @@ export default defineConfig([
     languageOptions: { globals: globals.browser },
   },
   tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
+  {
+    files: ['**/*.{jsx,tsx}'],
+    plugins: {
+      react: pluginReact,
+    },
+    rules: {
+      ...pluginReact.configs.recommended.rules,
+      'react/react-in-jsx-scope': 'off',
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+  },
   {
     files: ['**/*.json'],
+    ignores: ['package-lock.json', '**/tsconfig*.json'],
     plugins: { json },
     language: 'json/json',
     extends: ['json/recommended'],
@@ -30,6 +45,9 @@ export default defineConfig([
     plugins: { css },
     language: 'css/css',
     extends: ['css/recommended'],
+    rules: {
+      'css/use-baseline': 'off',
+    },
   },
   esLintConfigPrettier,
 ]);
