@@ -49,5 +49,8 @@ export default defineConfig([
       'css/use-baseline': 'off',
     },
   },
+  {
+    ignores: ['dist/'],
+  },
   esLintConfigPrettier,
 ]);
